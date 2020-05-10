@@ -1,0 +1,35 @@
+name: spaceX
+description: A 2d space shooting game with flutter.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.2
+  flame: ^0.20.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/audio/
+    - assets/images/bg/lose-splash.png
+    - assets/images/branding/title.png
+    - assets/images/ui/dialog-credits.png
+    - assets/images/ui/dialog-help.png
+    - assets/images/ui/icon-credits.png
+    - assets/images/ui/icon-help.png
+    - assets/images/ui/start-button.png
+    - assets/images/bg/game_bg.png
+    - assets/images/planets/planet_1.png
+    - assets/images/planets/planet_2.png
+    - assets/images/planets/planet_3.png
+    - assets/images/ship/ship.png
+    - assets/images/ship/fire.png
