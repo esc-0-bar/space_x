@@ -38,7 +38,6 @@ class SpaceX extends Game {
   Ship ship;
   Fire fire;
   bool didHitAFly = false;
-  bool isHandled = false;
   SpaceX() {
     initialize();
   }
@@ -67,16 +66,12 @@ class SpaceX extends Game {
   }
 
   void onTapDown(TapDownDetails d) {
+    bool isHandled = false;
     ship.setTargetLocation(d);
     fire.setTargetLocation(d);
+
     if (fire.fireRect.contains(d.globalPosition)) {
       fire.onTapDown();
-    }
-    if (!isHandled && startButton.rect.contains(d.globalPosition)) {
-      if (activeView == View.home || activeView == View.lost) {
-        startButton.onTapDown();
-        isHandled = true;
-      }
     }
 
     if (!isHandled) {
@@ -88,9 +83,17 @@ class SpaceX extends Game {
         }
       });
       if (activeView == View.playing && !didHitAFly) {
-        activeView = View.lost;
+        //activeView = View.lost;
       }
     }
+// dialog boxes
+    if (!isHandled) {
+      if (activeView == View.help || activeView == View.credits) {
+        activeView = View.home;
+        isHandled = true;
+      }
+    }
+
     // help button
     if (!isHandled && helpButton.rect.contains(d.globalPosition)) {
       if (activeView == View.home || activeView == View.lost) {
@@ -99,16 +102,18 @@ class SpaceX extends Game {
       }
     }
 
-// credits button
+    // credits button
     if (!isHandled && creditsButton.rect.contains(d.globalPosition)) {
       if (activeView == View.home || activeView == View.lost) {
         creditsButton.onTapDown();
         isHandled = true;
       }
     }
-    if (!isHandled) {
-      if (activeView == View.help || activeView == View.credits) {
-        activeView = View.home;
+
+    // start button
+    if (!isHandled && startButton.rect.contains(d.globalPosition)) {
+      if (activeView == View.home || activeView == View.lost) {
+        startButton.onTapDown();
         isHandled = true;
       }
     }
@@ -118,7 +123,7 @@ class SpaceX extends Game {
   void render(Canvas canvas) {
     background.render(canvas);
     planets.forEach((Planet fly) => fly.render(canvas));
-    if (activeView != View.home && activeView != View.lost) {
+    if (activeView == View.playing) {
       fire.render(canvas);
       ship.render(canvas);
     }
@@ -147,8 +152,11 @@ class SpaceX extends Game {
           fire.fireRect.left >= fly.planetRect.left - 15 &&
           fire.fireRect.left <= fly.planetRect.left + 35) {
         fly.onTapDown();
-        isHandled = true;
+        //isHandled = true;
         didHitAFly = true;
+        if (activeView == View.playing && !didHitAFly) {
+          activeView = View.lost;
+        }
       }
     });
   }
